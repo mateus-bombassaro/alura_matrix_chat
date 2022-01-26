@@ -1,34 +1,8 @@
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import appConfig from '../config.json';
+import React from 'react';
+import { useRouter } from 'next/router';
 
-function GlobalStyle() {
-    return (
-      <style global jsx>{`
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-          list-style: none;
-        }
-        body {
-          font-family: 'Open Sans', sans-serif;
-        }
-        /* App fit Height */ 
-        html, body, #__next {
-          min-height: 100vh;
-          display: flex;
-          flex: 1;
-        }
-        #__next {
-          flex: 1;
-        }
-        #__next > * {
-          flex: 1;
-        }
-        /* ./App fit Height */ 
-      `}</style>
-    );
-  }
 
   function Titulo(props) {
     const Tag = props.tag || 'h1';
@@ -46,25 +20,13 @@ function GlobalStyle() {
     );
   }
   
-  // Componente React
-  // function HomePage() {
-  //     // JSX
-  //     return (
-  //         <div>
-  //             <GlobalStyle />
-  //             <Titulo tag="h2">Boas vindas de volta!</Titulo>
-  //             <h2>Discord - Alura Matrix</h2>
-  //         </div>
-  //     )
-  // }
-  // export default HomePage
-  
   export default function PaginaInicial() {
-    const username = 'peas';
-  
+    //const username = 'mateus-bombassaro';
+    const [username, setUsername] = React.useState('');
+    const [usernameLenth, setUsernameLengh] = React.useState(0);
+    const router = useRouter();
     return (
       <>
-        <GlobalStyle />
         <Box
           styleSheet={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -91,6 +53,10 @@ function GlobalStyle() {
             {/* Formulário */}
             <Box
               as="form"
+              onSubmit={function (event) {
+                event.preventDefault();
+                router.push('chat');
+              }}
               styleSheet={{
                 display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
                 width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
@@ -103,6 +69,11 @@ function GlobalStyle() {
   
               <TextField
                 fullWidth
+                value={username}
+                onChange={function(event) {
+                  setUsername(event.target.value);
+                  setUsernameLengh(event.target.value.length);
+                }}
                 textFieldColors={{
                   neutral: {
                     textColor: appConfig.theme.colors.neutrals[200],
@@ -112,9 +83,11 @@ function GlobalStyle() {
                   },
                 }}
               />
+    
               <Button
                 type='submit'
                 label='Entrar'
+                disabled={usernameLenth <= 2}
                 fullWidth
                 buttonColors={{
                   contrastColor: appConfig.theme.colors.neutrals["000"],
@@ -128,7 +101,7 @@ function GlobalStyle() {
   
   
             {/* Photo Area */}
-            <Box
+            {usernameLenth >2 && <Box
               styleSheet={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -143,7 +116,7 @@ function GlobalStyle() {
                 minHeight: '240px',
               }}
             >
-              <Image
+            <Image
                 styleSheet={{
                   borderRadius: '50%',
                   marginBottom: '16px',
@@ -161,7 +134,7 @@ function GlobalStyle() {
               >
                 {username}
               </Text>
-            </Box>
+            </Box>}
             {/* Photo Area */}
           </Box>
         </Box>
