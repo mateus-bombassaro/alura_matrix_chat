@@ -23,7 +23,6 @@ import { useRouter } from 'next/router';
   export default function PaginaInicial() {
     //const username = 'mateus-bombassaro';
     const [username, setUsername] = React.useState('');
-    const [usernameLenth, setUsernameLengh] = React.useState(0);
     const router = useRouter();
     return (
       <>
@@ -31,7 +30,7 @@ import { useRouter } from 'next/router';
           styleSheet={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             backgroundColor: appConfig.theme.colors.primary[500],
-            backgroundImage: 'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
+            backgroundImage: 'url(https://wallpapersfullhdfree.files.wordpress.com/2017/07/abstract-dark-background-hd-1920x1080.jpg)',
             backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
           }}
         >
@@ -72,7 +71,6 @@ import { useRouter } from 'next/router';
                 value={username}
                 onChange={function(event) {
                   setUsername(event.target.value);
-                  setUsernameLengh(event.target.value.length);
                 }}
                 textFieldColors={{
                   neutral: {
@@ -87,7 +85,7 @@ import { useRouter } from 'next/router';
               <Button
                 type='submit'
                 label='Entrar'
-                disabled={usernameLenth <= 2}
+                disabled={username.length <= 2}
                 fullWidth
                 buttonColors={{
                   contrastColor: appConfig.theme.colors.neutrals["000"],
@@ -101,7 +99,7 @@ import { useRouter } from 'next/router';
   
   
             {/* Photo Area */}
-            {usernameLenth >2 && <Box
+            {username.length >2 && <Box
               styleSheet={{
                 display: 'flex',
                 flexDirection: 'column',
